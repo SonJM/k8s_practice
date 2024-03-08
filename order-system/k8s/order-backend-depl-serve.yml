@@ -16,7 +16,7 @@ spec:
       - name: jm-order-backend
         image: 346903264902.dkr.ecr.ap-northeast-2.amazonaws.com/team1-order:latest
         ports:
-        - containerPort: 8080
+        - containerPort: 8082
         resources:
         # 컨테이너가 사용할 수 있는 리소스의 최대치
           limits:
@@ -53,6 +53,6 @@ spec:
   ports:
   - name: http
     port: 80
-    targetPort: 8080
+    targetPort: 8082
   selector:
     app: jm-order-backend
