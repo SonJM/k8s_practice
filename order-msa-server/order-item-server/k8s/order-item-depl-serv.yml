@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: item
-        image: 346903264902.dkr.ecr.ap-northeast-2.amazonaws.com/1team-item:latest
+        image: 346903264902.dkr.ecr.ap-northeast-2.amazonaws.com/team1-item:latest
         ports:
         - containerPort: 8080
         resources:
