@@ -47,7 +47,7 @@ jobs:
               -f ./order-system/Dockerfile ./order-system
               docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
-          # - name: eks kubectl apply
-          #   run: |
-          #     kubectl apply -f ./order-system/k8s/order-backend-depl-serve.yml
-          #     kubectl rollout restart deployment jm-order-backend-depl
+          - name: eks kubectl apply
+            run: |
+              kubectl apply -f ./order-system/k8s/order-backend-depl-serve.yml
+              kubectl rollout restart deployment jm-order-backend-depl
