@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jm-order-backend-depl
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: jm-order-backend
+  template:
+    metadata:
+      labels:
+        app: jm-order-backend
+    spec:
+      containers:
+      - name: order-backend
+        image: 346903264902.dkr.ecr.ap-northeast-2.amazonaws.com/team1-order:latest
+        ports:
+        - containerPort: 80
+        env:
+          DB_HOST: 
+          DB_USERNAME: 
+          DB_PASSWORD: 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jm-order-backend-service
+spec:
+# ClusterIP는 클러스터 내부에서만 접근가능한 Service를 생성
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+  selector:
+    app: jm-order-backend
