@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://${DB_HOST}:3306/spring_order_jm
+    url: jdbc:mariadb://${DB_HOST}:3306/spring_order_team1
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   jpa:
