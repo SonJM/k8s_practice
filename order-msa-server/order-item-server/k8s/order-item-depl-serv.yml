@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jm-order-backend-depl
+  name: jm-item-depl
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: jm-order-backend
+      app: jm-item
   template:
     metadata:
       labels:
-        app: jm-order-backend
+        app: jm-item
     spec:
       containers:
-      - name: order-backend
-        image: 346903264902.dkr.ecr.ap-northeast-2.amazonaws.com/team1-order:latest
+      - name: item
+        image: 346903264902.dkr.ecr.ap-northeast-2.amazonaws.com/1team-item:latest
         ports:
         - containerPort: 8080
         resources:
@@ -46,7 +46,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: jm-order-backend-service
+  name: jm-item-service
 spec:
 # ClusterIP는 클러스터 내부에서만 접근가능한 Service를 생성
   type: ClusterIP
@@ -55,4 +55,4 @@ spec:
     port: 80
     targetPort: 8080
   selector:
-    app: jm-order-backend
+    app: jm-item

@@ -3,7 +3,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: jm-nginx-ingress
+  name: jm-msa-ingress
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /$1 # 첫번째 prefix제거
@@ -19,10 +19,17 @@ spec:
     - host: server.blisle.shop
       http:
         paths:
-          - path: /jm/(.*) # 모든 URL요청을 nginx-service로 라우팅
+          - path: /jm-item/(.*) # 모든 URL요청을 nginx-service로 라우팅
             pathType: Prefix
             backend:
               service:
-                name: jm-order-backend-service
+                name: jm-item-service
+                port:
+                  number: 80
+          - path: /jm-member/(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: jm-member-service
                 port:
                   number: 80

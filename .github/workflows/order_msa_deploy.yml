@@ -1,9 +1,9 @@
-name: deploy order order-backend
+name: deploy msa
 
 on:
   push:
     branches:
-      - dev
+      - main
 
 jobs:
   build-and-deploy:
@@ -33,10 +33,10 @@ jobs:
             uses: aws-actions/amazon-ecr-login@v1
 
 
-          - name: build and push docker image to ecr
+          - name: build and push docker item image to ecr
             env:
                 REGISTRY: 346903264902.dkr.ecr.ap-northeast-2.amazonaws.com
-                REPOSITORY: team1-order
+                REPOSITORY: team1-item
                 IMAGE_TAG: latest
                 DB_HOST: ${{ secrets.DB_HOST }}
                 DB_USERNAME: ${{ secrets.DB_USERNAME }}
@@ -44,10 +44,29 @@ jobs:
             run: |
               docker build \
               -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
-              -f ./order-system/Dockerfile ./order-system
+              -f ./order-msa-server/order-item-server/Dockerfile ./order-msa-server/order-item-server
               docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
-          - name: eks kubectl apply
+          - name: build and push docker member image to ecr
+            env:
+                REGISTRY: 346903264902.dkr.ecr.ap-northeast-2.amazonaws.com
+                REPOSITORY: team1-member
+                IMAGE_TAG: latest
+                DB_HOST: ${{ secrets.DB_HOST }}
+                DB_USERNAME: ${{ secrets.DB_USERNAME }}
+                DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
             run: |
-              kubectl apply -f ./order-system/k8s/order-backend-depl-serve.yml
-              kubectl rollout restart deployment jm-order-backend-depl
+              docker build \
+              -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
+              -f ./order-msa-server/order-member-server/Dockerfile ./order-msa-server/order-member-server
+              docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+
+          - name: eks kubectl apply item
+            run: |
+              kubectl apply -f ./order-msa-server/order-item-server/k8s/order-item-depl-serv.yml
+              kubectl rollout restart deployment jm-item-depl
+
+          - name: eks kubectl apply member
+            run: |
+              kubectl apply -f ./order-msa-server/order-member-server/k8s/order-member-depl-serv.yml
+              kubectl rollout restart deployment jm-member-depl 
