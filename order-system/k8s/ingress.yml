@@ -5,11 +5,12 @@ kind: Ingress
 metadata:
   name: jm-nginx-ingress
   annotations:
+    kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /$1 # 첫번째 prefix제거
     cert-manager.io/cluster-issuer: letsencrypt-prod
   
 spec:
-  ingressClassName: nginx
+  # ingressClassName: nginx
   tls:
   - hosts:
     - "server.blisle.shop"
@@ -18,7 +19,7 @@ spec:
     - host: server.blisle.shop
     - http:
         paths:
-          - path: /jm/ # 모든 URL요청을 nginx-service로 라우팅
+          - path: /jm/(.*) # 모든 URL요청을 nginx-service로 라우팅
             pathType: Prefix
             backend:
               service:
