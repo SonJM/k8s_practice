@@ -20,7 +20,7 @@ public class MsaTestController {
         this.restTemplate = restTemplate;
     }
 
-    @GetMapping("test/findMember")
+    @GetMapping("/test/findMember")
     public MemberDto findMember(HttpServletRequest httpServletRequest){
         String token = httpServletRequest.getHeader("Authorization");
         System.out.println("item 서버에 있는 token값: " + token);
